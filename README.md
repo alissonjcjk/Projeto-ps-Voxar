@@ -74,9 +74,7 @@ jupyter notebook notebook.ipynb
 
 ## Uso de LLMs
 
-O desenvolvimento deste projeto contou com suporte de LLMs (Google Gemini / Antigravity) para:
-- Estruturação inicial da análise do problema
+O desenvolvimento deste projeto contou com suporte de LLMs (Google Gemini) para:
 - Revisão de código e boas práticas
 - Redação técnica das seções de análise
 
-Todo o raciocínio, escolhas de abordagem e interpretação dos resultados são de responsabilidade do autor.
