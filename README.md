@@ -1,4 +1,4 @@
-# Classificação de Superfícies de Vias — Voxar Labs PS 2025
+# Classificação de Superfícies de Vias — Voxar Labs PS 2026
 
 Solução para o desafio de classificação de imagens em 3 classes (**Asphalt**, **Belgian Blocks**, **Off-road**), desenvolvida como parte do processo seletivo da Voxar Labs.
 
@@ -77,4 +77,11 @@ jupyter notebook notebook.ipynb
 O desenvolvimento deste projeto contou com suporte de LLMs (Google Gemini) para:
 - Revisão de código e boas práticas
 - Redação técnica das seções de análise
+
+## Resultados
+- O notebook do projeto foi executado e "subido" para esse repositório com todas as impormações das execuções
+- O notebook é composto por 6 fases as quais são seguidas de marckdowns com as explicações e insights dos resultados
+- **Portanto não é extritamente necessário executar o notebook para ter acesso aos resultados** 
+
+## Convido a todos para verem o projeto
 
