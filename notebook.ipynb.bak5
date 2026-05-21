@@ -1740,7 +1740,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 20,
    "id": "acff5656",
    "metadata": {
     "colab": {
@@ -2485,38 +2485,6 @@
     "    plt.show()\n",
     "else:\n",
     "    print('Nenhum erro corrigido encontrado — verifique os resultados das avaliações.')\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# ── 3.14.1 Visualização — Regressões Introduzidas pelo Exp2 ───────────────────\n",
-    "n_show = min(6, len(regression_cases))\n",
-    "if n_show > 0:\n",
-    "    fig, axes = plt.subplots(1, n_show, figsize=(3 * n_show, 4))\n",
-    "    if n_show == 1:\n",
-    "        axes = [axes]\n",
-    "    fig.suptitle('Regressões: Casos onde o Baseline acertou mas o Exp2 errou\\n'\n",
-    "                 '(verde = acerto Baseline | vermelho = erro Exp2)',\n",
-    "                 fontsize=11, fontweight='bold')\n",
-    "    for ax, (path, true, bl_p, e2_p) in zip(axes, regression_cases[:n_show]):\n",
-    "        img = Image.open(path).convert('RGB')\n",
-    "        ax.imshow(img)\n",
-    "        ax.axis('off')\n",
-    "        ax.set_title(\n",
-    "            f'Real: {CLASS_DISPLAY[true]}\\n'\n",
-    "            f'Base: {CLASS_DISPLAY[bl_p]} ✓\\n'\n",
-    "            f'Exp2: {CLASS_DISPLAY[e2_p]} ✗',\n",
-    "            fontsize=8, color='#C0392B'\n",
-    "        )\n",
-    "    plt.tight_layout()\n",
-    "    plt.savefig('error_analysis_regressions.png', dpi=120, bbox_inches='tight')\n",
-    "    plt.show()\n",
-    "else:\n",
-    "    print('Nenhuma regressão encontrada.')\n"
    ]
   },
   {
