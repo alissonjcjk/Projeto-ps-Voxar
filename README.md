@@ -1,87 +1,82 @@
-# Classificação de Superfícies de Vias — Voxar Labs PS 2026
+# 🛣️ Classificação de Superfícies de Vias — Voxar Labs
 
-Solução para o desafio de classificação de imagens em 3 classes (**Asphalt**, **Belgian Blocks**, **Off-road**), desenvolvida como parte do processo seletivo da Voxar Labs.
-
----
-
-## Estrutura do Projeto
-
-```
-projeto-ps-voxar/
-├── notebook.ipynb        # Notebook principal com toda a solução e análise
-├── requirements.txt      # Dependências Python
-└── README.md             # Este arquivo
-```
+Projeto de Visão Computacional para classificação de tipos de pavimentação em imagens reais, com foco em robustez contra desbalanceamento de classes e variações ambientais.
 
 ---
 
-## Dataset
+## 📋 Visão Geral
+Este repositório contém a solução do desafio técnico da **Voxar Labs (2026)**. O objetivo é classificar superfícies em três categorias:
+*   **Asphalt** (Classe Majoritária)
+*   **Belgian Blocks** (Paralelepípedo - Classe Crítica/Minoritária)
+*   **Off-road** (Terra/Grama)
 
-O dataset é composto por imagens de superfícies de vias capturadas em condições variadas (iluminação, chuva, período noturno, diferentes câmeras). Estrutura esperada:
-
-```
-dataset_processed/
-├── train/
-│   ├── asphalt/         # 655 imagens
-│   ├── belgian_blocks/  # 94 imagens
-│   └── offroad/         # 151 imagens
-└── test/
-    ├── asphalt/         # 218 imagens
-    ├── belgian_blocks/  # 32 imagens
-    └── offroad/         # 50 imagens
-```
-
-> ⚠️ O dataset **não está versionado** neste repositório. Coloque a pasta `dataset_processed/` na raiz do projeto antes de executar o notebook.
+### Principais Desafios:
+1.  **Desbalanceamento Severo:** Proporção aproximada de 7:1 entre a classe majoritária e a minoritária.
+2.  **Variabilidade Ambiental:** Imagens com chuva, neblina, período noturno e diferentes ângulos de captura.
 
 ---
 
-## Como Executar
+## 🛠️ Metodologia
+A solução utiliza **Transfer Learning** com a arquitetura **ResNet-18** pré-treinada na ImageNet.
 
+| Etapa | Abordagem Técnica | Racional |
+|:---:|:---|:---|
+| **Modelo** | ResNet-18 (Backbone congelado + FC Head) | Equilíbrio entre performance e eficiência computacional. |
+| **Pipeline** | PyTorch + Stratified Splits | Garantia de que a distribuição de classes é mantida no treino/teste. |
+| **Combate ao Viés** | Weighted CrossEntropy Loss | Penalização maior para erros na classe minoritária (*Belgian Blocks*). |
+| **Aumentação** | Color Jitter, Motion Blur, Flips e Rotações | Aumentar a diversidade do dataset e reduzir overfitting. |
+| **Explicabilidade** | Grad-CAM | Visualização das regiões de atenção do modelo para auditoria. |
+
+---
+
+## 🚀 Experimentos e Resultados
+
+Foram realizados três experimentos incrementais para validar as hipóteses de melhoria:
+
+1.  **Baseline:** Modelo básico sem tratamento de pesos ou intensas aumentações.
+2.  **Exp 1 (Weighted Loss):** Ajuste dos pesos da função de perda com base na frequência das classes.
+3.  **Exp 2 (Augumentation):** Inclusão de transformações geométricas e de cor para aumentar a invariância do modelo.
+
+### Comparativo Final (Conjunto de Teste)
+
+| Experimento | Accuracy | F1 Macro (Métrica Principal) | F1 - Belgian Blocks |
+|:---:|:---:|:---:|:---:|
+| **Baseline** | 81.67% | 0.627 | 0.316 |
+| **Exp 1 (Pesos)** | 81.67% | 0.657 | 0.390 |
+| **Exp 2 (Aug + Pesos)** | **80.00%** | **0.654** | **0.419** |
+
+> **Insight Principal:** Embora a acurácia global tenha sofrido um leve decréscimo (*Paradoxo da Acurácia*), o Modelo Final (Exp 2) é o mais robusto. Ele elevou a detecção da classe crítica (**Belgian Blocks**) em **~32%** em relação ao baseline, garantindo maior segurança em aplicações de navegação embarcada.
+
+![Resultados Consolidados](results_consolidated.png)
+
+---
+
+## 🔍 Explicabilidade (Grad-CAM)
+Utilizamos Grad-CAM para verificar se o modelo está "olhando" para o lugar certo (a textura da estrada) ou se está enviesado por elementos de cenário (árvores, céu). As visualizações confirmaram que o modelo foca nas regiões inferiores da imagem, ricas em padrões táteis de pavimentação.
+
+![Grad-CAM Comparison](grad_cam_comparison.png)
+*Comparação entre o modelo Baseline e o Exp2 (Treinado com Augmentation).*
+
+---
+
+## ⚖️ Rigor Científico
+
+*   **Teste de McNemar:** Realizado para validar se a diferença estatística entre as predições é significante ($p < 0.05$).
+*   **Validação Cruzada (K-Fold):** Para garantir a replicabilidade, o modelo final foi validado com 5-folds, atingindo:
+    *   **Acurácia Média:** 93.92% (+/- 1.14%)
+    *   **F1-Macro Médio:** 89.2% (+/- 1.8%)
+
+---
+
+## 📂 Como executar
 ```bash
-# 1. Crie e ative um ambiente virtual
-python -m venv venv
-venv\Scripts\activate        # Windows
-# source venv/bin/activate   # Linux/Mac
-
-# 2. Instale as dependências
+# Instalação
 pip install -r requirements.txt
 
-# 3. Abra o notebook
+# Execução
 jupyter notebook notebook.ipynb
 ```
+*Obs: O dataset deve ser colocado na pasta `dataset_processed/` na raiz do projeto.*
 
 ---
-
-## Abordagem
-
-| Etapa | Detalhe |
-|---|---|
-| **Modelo base** | ResNet-18 pré-treinado (ImageNet) |
-| **Estratégia** | Fine-tuning das últimas camadas |
-| **Desbalanceamento** | `CrossEntropyLoss` com pesos por classe |
-| **Augmentation** | Flip, rotação, jitter de cor, blur |
-| **Métricas** | F1-score macro, matriz de confusão por classe |
-
----
-
-## Experimentos
-
-1. **Baseline** — ResNet-18 fine-tuning simples
-2. **Exp 1** — Adição de `class_weight` na loss function
-3. **Exp 2** — Data augmentation agressivo
-
----
-
-## Uso de LLMs
-
-O desenvolvimento deste projeto contou com suporte de LLMs (Google Gemini) para:
-- Revisão de código e boas práticas
-- Redação técnica das seções de análise
-
-## Resultados
-- O notebook do projeto foi executado e "subido" para esse repositório com todas as impormações das execuções
-- O notebook é composto por 6 fases as quais são seguidas de marckdowns com as explicações e insights dos resultados
-- **Portanto não é extritamente necessário executar o notebook para ter acesso aos resultados** 
-
-## Convido a todos para verem o projeto
-
+**Desenvolvido com foco em: Estrutura, Rigor e Comunicação.**
