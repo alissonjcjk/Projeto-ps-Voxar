@@ -1,10 +1,10 @@
-# 🛣️ Classificação de Superfícies de Vias — Voxar Labs
+# Classificação de Superfícies de Vias — Voxar Labs
 
 Projeto de Visão Computacional para classificação de tipos de pavimentação em imagens reais, com foco em robustez contra desbalanceamento de classes e variações ambientais.
 
 ---
 
-## 📋 Visão Geral
+## Visão Geral
 Este repositório contém a solução do desafio técnico da **Voxar Labs (2026)**. O objetivo é classificar superfícies em três categorias:
 *   **Asphalt** (Classe Majoritária)
 *   **Belgian Blocks** (Paralelepípedo - Classe Crítica/Minoritária)
@@ -16,7 +16,7 @@ Este repositório contém a solução do desafio técnico da **Voxar Labs (2026)
 
 ---
 
-## 🛠️ Metodologia
+## Metodologia
 A solução utiliza **Transfer Learning** com a arquitetura **ResNet-18** pré-treinada na ImageNet.
 
 | Etapa | Abordagem Técnica | Racional |
@@ -29,7 +29,7 @@ A solução utiliza **Transfer Learning** com a arquitetura **ResNet-18** pré-t
 
 ---
 
-## 🚀 Experimentos e Resultados
+## Experimentos e Resultados
 
 Foram realizados três experimentos incrementais para validar as hipóteses de melhoria:
 
@@ -51,7 +51,7 @@ Foram realizados três experimentos incrementais para validar as hipóteses de m
 
 ---
 
-## 🔍 Explicabilidade (Grad-CAM)
+## Explicabilidade (Grad-CAM)
 Utilizamos Grad-CAM para verificar se o modelo está "olhando" para o lugar certo (a textura da estrada) ou se está enviesado por elementos de cenário (árvores, céu). As visualizações confirmaram que o modelo foca nas regiões inferiores da imagem, ricas em padrões táteis de pavimentação.
 
 ![Grad-CAM Comparison](grad_cam_comparison.png)
@@ -59,7 +59,7 @@ Utilizamos Grad-CAM para verificar se o modelo está "olhando" para o lugar cert
 
 ---
 
-## ⚖️ Rigor Científico
+## Rigor Científico
 
 *   **Teste de McNemar:** Realizado para validar se a diferença estatística entre as predições é significante ($p < 0.05$).
 *   **Validação Cruzada (K-Fold):** Para garantir a replicabilidade, o modelo final foi validado com 5-folds, atingindo:
@@ -68,7 +68,7 @@ Utilizamos Grad-CAM para verificar se o modelo está "olhando" para o lugar cert
 
 ---
 
-## 📂 Como executar
+## Como executar
 ```bash
 # Instalação
 pip install -r requirements.txt
@@ -79,4 +79,4 @@ jupyter notebook notebook.ipynb
 *Obs: O dataset deve ser colocado na pasta `dataset_processed/` na raiz do projeto.*
 
 ---
-**Desenvolvido com foco em: Estrutura, Rigor e Comunicação.**
+**Desenvolvido por Alisson da Silva Bernardino.**
